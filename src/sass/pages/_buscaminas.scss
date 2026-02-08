@@ -1,0 +1,206 @@
+@use '../abstracts/index' as *;
+
+.game-body {
+    background-color: $color-bg;
+    @include flex-center;
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+}
+
+.minesweeper-container {
+    background-color: #333; 
+    padding: 20px;
+    border: 4px outset #666; 
+    border-radius: 4px;
+    
+    // CLAVE: Eliminamos max-width y overflow para que crezca libremente
+    width: fit-content; 
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Centra el contenido internamente
+}
+
+// Estilos para la pantalla de Selección de Nivel
+#setup-screen {
+    text-align: center;
+    width: 100%;
+
+    h2 {
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: $color-primary;
+    }
+
+    .difficulty-options {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-level {
+        background-color: #1a1a1a;
+        color: white;
+        border: 2px solid #444;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            border-color: $color-primary;
+            background-color: #222;
+        }
+    }
+}
+
+#custom-params {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    input {
+        background: #111;
+        border: 1px solid #444;
+        color: $color-primary;
+        padding: 8px;
+        width: 70px;
+        border-radius: 4px;
+        text-align: center;
+
+        &:focus {
+            outline: none;
+            border-color: $color-primary;
+        }
+    }
+
+    .btn-primary {
+        background-color: $color-primary;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        
+        &:hover {
+            filter: brightness(1.2);
+        }
+    }
+}
+
+.game-header {
+    background-color: #bdbdbd; 
+    border: 3px inset #eee;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%; // Se estira al ancho del contenedor padre
+    box-sizing: border-box;
+
+    .display {
+        background-color: black;
+        color: #ff0000;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 2rem;
+        padding: 0 5px;
+        min-width: 60px;
+        text-align: right;
+    }
+}
+
+.grid {
+    display: grid;
+    gap: 1px; 
+    background-color: #7b7b7b;
+    border: 3px inset #eee;
+    width: fit-content; // El grid define su propio ancho según celdas
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: #bdbdbd;
+    border: 3px outset #eee;
+    @include flex-center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    color: black;
+
+    &--revealed {
+        border: 1px solid #7b7b7b;
+        background-color: #d1d1d1;
+    }
+
+    &--mine {
+        background-color: red !important;
+    }
+
+    &[data-num="1"] { color: blue; }
+    &[data-num="2"] { color: green; }
+    &[data-num="3"] { color: red; }
+    &[data-num="4"] { color: darkblue; }
+}
+
+.face-btn {
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: #bdbdbd;
+    border: 2px outset #eee;
+    padding: 0 5px;
+    @include flex-center;
+    
+    &:active {
+        border-style: inset;
+    }
+}
+
+#btn-back {
+    margin-top: 15px;
+    background: #222;
+    color: white;
+    border: 1px solid #444;
+    padding: 8px 15px;
+    cursor: pointer;
+    width: 100%; // Botón ancho completo debajo del tablero
+    
+    &:hover {
+        background: #333;
+        border-color: $color-primary;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.navigation-actions {
+    margin-top: 30px;
+    border-top: 1px solid #444;
+    padding-top: 20px;
+
+    .btn-exit {
+        color: #888;
+        text-decoration: none;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $color-primary; // Tu azul BIOR
+        }
+    }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscaminas | BIOR Web Studio</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<body class="game-body">
+    <div class="minesweeper-container">
+        
+        <section id="setup-screen" class="screen">
+            <h2>Seleccionar Nivel</h2>
+            <div class="difficulty-options">
+                <button class="btn-level" data-level="facil">Fácil (8x8)</button>
+                <button class="btn-level" data-level="medio">Medio (16x16)</button>
+                <button class="btn-level" data-level="dificil">Difícil (16x30)</button>
+                <button class="btn-level" data-level="personalizado">Personalizado</button>
+            </div>
+
+            <div class="navigation-actions">
+                <a href="index.html" class="btn-exit">← Volver al Laboratorio Principal</a>
+            </div>
+
+            <div id="custom-params" class="hidden">
+                <input type="number" id="custom-rows" placeholder="Filas" min="5" max="30">
+                <input type="number" id="custom-cols" placeholder="Cols" min="5" max="30">
+                <input type="number" id="custom-mines" placeholder="Minas" min="1">
+                <button id="btn-start-custom" class="btn-primary">Empezar</button>
+            </div>
+        </section>
+
+        <section id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="display" id="mine-count">000</div>
+                <button id="reset-btn" class="face-btn">😊</button>
+                <div class="display" id="timer">000</div>
+            </div>
+
+            <div id="minesweeper-grid" class="grid"></div>
+            
+            <button id="btn-back" class="btn-outline">Volver al Menú</button>
+        </section>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>

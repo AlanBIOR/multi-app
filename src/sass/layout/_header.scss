@@ -1,0 +1,15 @@
+@use '../abstracts/index' as *;
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &-content{
+        h1{
+            color: $color-primary;
+            align-items: center;
+            padding: 10px 0;
+        }
+    }
+}

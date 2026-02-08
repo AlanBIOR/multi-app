@@ -1,0 +1,20 @@
+// 1. IMPORTANTE: Debes cargar el módulo integrado de Sass al principio
+@use "sass:color"; 
+@use '../abstracts/index' as *;
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+a {
+  font-weight: 500;
+  color: $color-primary; 
+  text-decoration: inherit;
+  transition: color 0.3s;
+
+  &:hover {
+    // 2. CAMBIO: De lighten(...) a color.adjust(...)
+    color: color.adjust($color-primary, $lightness: 10%);
+  }
+}

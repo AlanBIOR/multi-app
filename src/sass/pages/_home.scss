@@ -1,0 +1,105 @@
+@use '../abstracts/index' as *;
+
+.grid-projects {
+  display: grid;
+  // FUERZA COLUMNA ÚNICA (Flujo vertical)
+  grid-template-columns: 1fr; 
+  gap: 40px;
+  padding: 40px 20px;
+  background-color: $color-bg;
+
+  // Cambia a filas solo cuando hay espacio suficiente
+  @include breakpoint(tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint(desktop) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  color: $color-text;
+
+    .imagen-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 10; // Esto asegura que siempre haya un rectángulo, cargue o no la imagen
+        background-color: #222; // Un color de respaldo para que no se vea vacío
+        overflow: hidden;
+
+        .imagen-proyecto {
+            width: 100%;
+            height: 100%; // Cambia auto por 100%
+            object-fit: cover; // Para que la imagen llene el espacio sin deformarse
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background-color: $color-overlay;
+            
+            // APLICAMOS COLUMNA PARA LOS BOTONES
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+
+            // Estilo de los links (botones con línea verde)
+            .boton-overlay, .boton-text {
+                width: fit-content; // Evita que la línea verde ocupe todo el ancho
+                text-align: center;
+            }
+        }
+    }
+
+  .info-proyecto {
+    margin-top: 20px;
+
+    h3 {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .tags {
+      color: #d9d9d9;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      word-spacing: 15px; // Espaciado entre etiquetas como en tu imagen
+    }
+  }
+
+  // Lógica del HOVER
+  &:hover {
+    .overlay {
+      opacity: 1;
+    }
+    .imagen-proyecto {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Estilo de los enlaces dentro del overlay
+.boton-overlay, .boton-text {
+  color: $color-text;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid $color-line; // Línea decorativa inferior
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $color-line;
+  }
+}

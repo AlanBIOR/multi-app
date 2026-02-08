@@ -1,0 +1,12 @@
+@use "../abstracts/variables" as *;
+
+html * {
+    font-family: $roboto-font;
+}
+ 
+body {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+} 
