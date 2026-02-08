@@ -1,0 +1,195 @@
+@use "sass:color";
+@use '../abstracts/index' as *;
+
+// Variables locales para el componente
+$ss-bg-dark: #121212;
+$ss-card-bg: #1e1e1e;
+$ss-accent: $color-primary; // Usamos tu color de marca
+$ss-border: #333;
+$ss-text-muted: #888;
+$ss-success: #4caf50;
+$ss-error: #f44336;
+
+.ss-app {
+    background-color: $ss-bg-dark;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    @include flex-center;
+    padding: 20px;
+}
+
+.ss-container {
+    background-color: $ss-card-bg;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid $ss-border;
+}
+
+// --- PANTALLAS ---
+.ss-screen {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeIn 0.4s ease-out;
+
+    &.ss-hidden {
+        display: none;
+    }
+}
+
+// --- HEADER & TITLES ---
+.ss-header {
+    text-align: center;
+    border-bottom: 1px solid $ss-border;
+    padding-bottom: 1rem;
+
+    .ss-title {
+        color: $ss-accent;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin: 0;
+    }
+
+    .ss-subtitle {
+        font-size: 0.8rem;
+        color: $ss-text-muted;
+        margin-top: 5px;
+    }
+}
+
+// --- GRID DE SUDOKU (EL CORAZÓN) ---
+.ss-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    background-color: #000;
+    border: 2px solid #000;
+    aspect-ratio: 1 / 1;
+    margin: 1rem 0;
+
+    input {
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        border: 0.5px solid #ccc;
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #333;
+        outline: none;
+        transition: all 0.2s;
+
+        &:focus {
+            background-color: color.adjust($ss-accent, $lightness: 40%);
+            z-index: 2;
+        }
+
+        &:disabled {
+            background-color: #f0f0f0;
+            color: #000;
+            cursor: default;
+        }
+
+        // Estética de bloques 3x3 usando nth-child
+        // Bordes derechos de bloques
+        &:nth-child(3n) { border-right: 2px solid #000; }
+        &:nth-child(9n) { border-right: none; }
+        
+        // Bordes inferiores de bloques
+        &:nth-child(n+19):nth-child(-n+27),
+        &:nth-child(n+46):nth-child(-n+54) {
+            border-bottom: 2px solid #000;
+        }
+    }
+}
+
+// --- BOTONES ---
+.ss-btn {
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+
+    &--level {
+        background: #2a2a2a;
+        color: white;
+        border: 1px solid $ss-border;
+        &:hover { border-color: $ss-accent; background: #333; }
+    }
+
+    &--primary {
+        background: $ss-accent;
+        color: white;
+        &:hover { filter: brightness(1.2); transform: translateY(-2px); }
+    }
+
+    &--secondary {
+        background: #444;
+        color: white;
+        &:hover { background: #555; }
+    }
+
+    &--danger {
+        background: transparent;
+        color: $ss-error;
+        border: 1px solid $ss-error;
+        &:hover { background: $ss-error; color: white; }
+    }
+}
+
+// --- BARRA DE ESTADO (TOP GAME) ---
+.ss-game-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #252525;
+    padding: 10px 15px;
+    border-radius: 8px;
+
+    .ss-timer {
+        font-family: 'Courier New', Courier, monospace;
+        color: $ss-accent;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .ss-badge {
+        background: $ss-border;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        color: $ss-text-muted;
+    }
+}
+
+// --- MENSAJES ---
+.ss-message {
+    min-height: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    
+    &.error { color: $ss-error; }
+    &.success { color: $ss-success; }
+}
+
+// --- ANIMACIONES ---
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Chrome, Safari, Edge, Opera - Quitar flechas de input number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

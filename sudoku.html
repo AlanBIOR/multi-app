@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver | BIOR Web Studio</title>
+    <link rel="stylesheet" href="./src/css/style.css">
+</head>
+<body class="ss-app">
+    <main class="ss-container">
+        
+        <section id="ss-setup" class="ss-screen">
+            <header class="ss-header">
+                <h1 class="ss-title">Sudoku Solver</h1>
+                <p class="ss-subtitle">BIOR Web Studio</p>
+            </header>
+            
+            <div class="ss-card">
+                <p class="ss-text">Selecciona una dificultad para generar un tablero o empieza desde cero.</p>
+
+                <div class="ss-difficulty-grid">
+                    <button class="ss-btn ss-btn--level" data-level="easy">Fácil</button>
+                    <button class="ss-btn ss-btn--level" data-level="medium">Medio</button>
+                    <button class="ss-btn ss-btn--level" data-level="hard">Difícil</button>
+                    <button class="ss-btn ss-btn--empty" data-level="empty">Entrada Manual (Vacío)</button>
+                </div>
+
+                <div class="ss-stats">
+                    <h3 class="ss-stats__title">🏆 Récords Personales</h3>
+                    <ul class="ss-stats__list">
+                        <li>Fácil: <span id="ss-best-easy">--:--</span></li>
+                        <li>Medio: <span id="ss-best-medium">--:--</span></li>
+                        <li>Difícil: <span id="ss-best-hard">--:--</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <nav class="ss-nav">
+                <a href="index.html" class="ss-link">← Volver al Laboratorio</a>
+            </nav>
+        </section>
+
+        <section id="ss-game" class="ss-screen ss-hidden">
+            <div class="ss-game-bar">
+                <div class="ss-timer">
+                    <span class="ss-icon">⏱️</span>
+                    <span id="ss-clock">00:00</span>
+                </div>
+                <div class="ss-badge" id="ss-difficulty-display">Manual</div>
+                <button id="ss-reset" class="ss-btn-icon" title="Reiniciar Tablero">🔄</button>
+            </div>
+
+            <div id="ss-grid-container" class="ss-grid">
+                </div>
+
+            <div class="ss-actions">
+                <div class="ss-main-btns">
+                    <button id="ss-solve-btn" class="ss-btn ss-btn--primary">Resolver con Backtracking</button>
+                    <button id="ss-validate-btn" class="ss-btn ss-btn--secondary">Validar Tablero</button>
+                </div>
+                
+                <div class="ss-secondary-btns">
+                    <button id="ss-clear-btn" class="ss-btn ss-btn--outline">Limpiar Celdas</button>
+                    <button id="ss-exit-btn" class="ss-btn ss-btn--danger">Abandonar</button>
+                </div>
+            </div>
+
+            <div id="ss-message-area" class="ss-message">
+                </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>

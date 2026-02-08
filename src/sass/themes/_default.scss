@@ -9,4 +9,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: $bp-desktop;
+    margin: 0 auto;
 } 

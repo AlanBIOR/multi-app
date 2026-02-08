@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscaminas | BIOR Web Studio</title>
-    <link rel="stylesheet" href="./src/style.css">
+    <link rel="stylesheet" href="./src/css/style.css">
 </head>
 <body class="game-body">
     <div class="minesweeper-container">
@@ -18,15 +18,22 @@
                 <button class="btn-level" data-level="personalizado">Personalizado</button>
             </div>
 
-            <div class="navigation-actions">
-                <a href="index.html" class="btn-exit">← Volver al Laboratorio Principal</a>
-            </div>
-
             <div id="custom-params" class="hidden">
                 <input type="number" id="custom-rows" placeholder="Filas" min="5" max="30">
                 <input type="number" id="custom-cols" placeholder="Cols" min="5" max="30">
                 <input type="number" id="custom-mines" placeholder="Minas" min="1">
                 <button id="btn-start-custom" class="btn-primary">Empezar</button>
+            </div>
+
+            <div class="records-container">
+                <h3>🏆 Mejores Tiempos</h3>
+                <div class="record-item">Fácil: <span id="record-facil">--</span>s</div>
+                <div class="record-item">Medio: <span id="record-medio">--</span>s</div>
+                <div class="record-item">Difícil: <span id="record-dificil">--</span>s</div>
+            </div>
+
+            <div class="navigation-actions">
+                <a href="index.html" class="btn-exit">← Volver al Laboratorio Principal</a>
             </div>
         </section>
 

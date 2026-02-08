@@ -1,3 +1,4 @@
+@use "sass:color"; 
 @use '../abstracts/index' as *;
 
 .game-body {
@@ -13,17 +14,15 @@
     padding: 20px;
     border: 4px outset #666; 
     border-radius: 4px;
-    
-    // CLAVE: Eliminamos max-width y overflow para que crezca libremente
     width: fit-content; 
     margin: 0 auto;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
-    align-items: center; // Centra el contenido internamente
+    align-items: center;
 }
 
-// Estilos para la pantalla de Selección de Nivel
+// Pantalla de Selección
 #setup-screen {
     text-align: center;
     width: 100%;
@@ -90,6 +89,7 @@
         border-radius: 4px;
         cursor: pointer;
         font-weight: bold;
+        transition: filter 0.3s;
         
         &:hover {
             filter: brightness(1.2);
@@ -97,6 +97,7 @@
     }
 }
 
+// Cabecera del Juego
 .game-header {
     background-color: #bdbdbd; 
     border: 3px inset #eee;
@@ -105,7 +106,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    width: 100%; // Se estira al ancho del contenedor padre
+    width: 100%;
     box-sizing: border-box;
 
     .display {
@@ -116,42 +117,59 @@
         padding: 0 5px;
         min-width: 60px;
         text-align: right;
+        border: 2px inset #555; // Efecto digital hundido
     }
 }
 
+// El Tablero
 .grid {
     display: grid;
-    gap: 1px; 
+    gap: 0; // Gap 0 para que los bordes se toquen perfectamente
     background-color: #7b7b7b;
     border: 3px inset #eee;
-    width: fit-content; // El grid define su propio ancho según celdas
+    width: fit-content;
 }
 
+// Las Celdas (El corazón visual)
 .cell {
     width: 30px;
     height: 30px;
     background-color: #bdbdbd;
-    border: 3px outset #eee;
+    border: 3px outset #eee; // Relieve clásico
+    box-sizing: border-box;
     @include flex-center;
     font-weight: bold;
     font-size: 1.2rem;
     cursor: pointer;
     user-select: none;
-    color: black;
+
+    // Efecto visual cuando se hace click sin soltar
+    &:active:not(&--revealed) {
+        border: 1px solid #7b7b7b;
+        background-color: #bebebe;
+    }
 
     &--revealed {
-        border: 1px solid #7b7b7b;
+        border: 1px solid #7b7b7b; // Borde plano al revelar
         background-color: #d1d1d1;
+        cursor: default;
     }
 
     &--mine {
         background-color: red !important;
+        border: 1px solid #7b7b7b;
     }
 
+    &--flag {
+        // Estilo cuando tiene bandera (mantiene relieve)
+    }
+
+    // Colores oficiales del Buscaminas
     &[data-num="1"] { color: blue; }
-    &[data-num="2"] { color: green; }
+    &[data-num="2"] { color: #008000; } // Verde oscuro
     &[data-num="3"] { color: red; }
-    &[data-num="4"] { color: darkblue; }
+    &[data-num="4"] { color: #000080; } // Azul oscuro
+    &[data-num="5"] { color: #800000; } // Marrón
 }
 
 .face-btn {
@@ -163,7 +181,7 @@
     @include flex-center;
     
     &:active {
-        border-style: inset;
+        border: 2px inset #eee; // La carita se hunde al clickar
     }
 }
 
@@ -174,10 +192,12 @@
     border: 1px solid #444;
     padding: 8px 15px;
     cursor: pointer;
-    width: 100%; // Botón ancho completo debajo del tablero
+    width: 100%;
+    transition: all 0.3s;
     
     &:hover {
         background: #333;
+        color: $color-primary;
         border-color: $color-primary;
     }
 }
@@ -200,7 +220,33 @@
         transition: color 0.3s ease;
 
         &:hover {
-            color: $color-primary; // Tu azul BIOR
+            color: $color-primary;
+        }
+    }
+}
+
+.records-container {
+    margin: 20px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid #444;
+
+    h3 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        color: #888;
+    }
+
+    .record-item {
+        font-family: 'Courier New', monospace;
+        color: $color-primary;
+        font-size: 1.1rem;
+        margin: 5px 0;
+        
+        span {
+            font-weight: bold;
+            color: #ff0000; // Estilo digital rojo
         }
     }
 }

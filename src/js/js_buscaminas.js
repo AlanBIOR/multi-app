@@ -1,14 +1,23 @@
-// Variables de estado global del sistema
+/**
+ * BUSCAMINAS - BIOR Web Studio
+ */
+
+// Variables de estado privado del módulo
 let tableroData = [];
 let configActual = {};
 let cronometro;
 let segundos = 0;
 let minasMarcadas = 0;
 let juegoTerminado = false;
-let celdasReveladas = 0; // Sensor de progreso
+let celdasReveladas = 0;
 
 export function initBuscaminas() {
+    // Verificar si estamos en la página correcta
     const setupScreen = document.querySelector('#setup-screen');
+    if (!setupScreen) return;
+
+    actualizarInterfazRecords();
+
     const gameScreen = document.querySelector('#game-screen');
     const dificultadBtns = document.querySelector('.difficulty-options');
     const customParams = document.querySelector('#custom-params');
@@ -55,10 +64,12 @@ export function initBuscaminas() {
     });
 }
 
+// --- Funciones Internas del Juego ---
+
 function empezarJuego(config, setup, game, grid) {
     configActual = config;
     juegoTerminado = false;
-    celdasReveladas = 0; // Reset fundamental
+    celdasReveladas = 0;
     setup.classList.add('hidden');
     game.classList.remove('hidden');
     
@@ -66,7 +77,7 @@ function empezarJuego(config, setup, game, grid) {
     minasMarcadas = 0;
     actualizarDisplay('#timer', 0);
     actualizarDisplay('#mine-count', config.minas);
-    document.querySelector('#reset-btn').innerText = '😊'; // Reset carita
+    document.querySelector('#reset-btn').innerText = '😊'; 
     
     clearInterval(cronometro);
     iniciarCronometro();
@@ -94,7 +105,7 @@ function empezarJuego(config, setup, game, grid) {
 
     for (let i = 0; i < totalCeldas; i++) {
         const celda = document.createElement('div');
-        celda.classList.add('cell');
+        celda.classList.add('cell'); // Asegúrate que en CSS no choque con Sudoku
         celda.dataset.id = i;
         celda.addEventListener('click', () => manejarClick(celda, i));
         celda.addEventListener('contextmenu', (e) => {
@@ -109,7 +120,6 @@ function contarMinasVecinas(idx, filas, cols) {
     let minas = 0;
     const r = Math.floor(idx / cols);
     const c = idx % cols;
-
     for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
             const nr = r + i;
@@ -124,7 +134,6 @@ function contarMinasVecinas(idx, filas, cols) {
 
 function manejarClick(celda, idx) {
     if (juegoTerminado || celda.classList.contains('cell--revealed') || celda.classList.contains('cell--flag')) return;
-
     if (tableroData[idx] === 'M') {
         finalizarJuego(false);
     } else {
@@ -134,9 +143,8 @@ function manejarClick(celda, idx) {
 
 function revelarCelda(celda, idx) {
     if (celda.classList.contains('cell--revealed')) return;
-
     celda.classList.add('cell--revealed');
-    celdasReveladas++; // Incremento de progreso
+    celdasReveladas++; 
     
     const valor = tableroData[idx];
     if (valor > 0) {
@@ -145,7 +153,6 @@ function revelarCelda(celda, idx) {
     } else {
         const r = Math.floor(idx / configActual.columnas);
         const c = idx % configActual.columnas;
-
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
                 const nr = r + i;
@@ -160,34 +167,23 @@ function revelarCelda(celda, idx) {
             }
         }
     }
-
-    verificarVictoria(); // Evaluación de estado constante
+    verificarVictoria();
 }
 
 function verificarVictoria() {
     const totalCeldasSeguras = (configActual.filas * configActual.columnas) - configActual.minas;
-    const todasAbiertas = celdasReveladas === totalCeldasSeguras;
-    const todasMarcadas = (configActual.minas - minasMarcadas) === 0;
-
-    if (todasAbiertas && todasMarcadas) {
+    if (celdasReveladas === totalCeldasSeguras) {
         finalizarJuego(true);
     }
 }
 
 function manejarBandera(celda) {
     if (juegoTerminado || celda.classList.contains('cell--revealed')) return;
-
     celda.classList.toggle('cell--flag');
     const tieneBandera = celda.classList.contains('cell--flag');
     celda.innerHTML = tieneBandera ? '🚩' : '';
-    
     minasMarcadas += tieneBandera ? 1 : -1;
-    // Actualizamos el display de bombas
-    const bombasRestantes = configActual.minas - minasMarcadas;
-    actualizarDisplay('#mine-count', Math.max(0, bombasRestantes));
-
-    // IMPORTANTE: También verificamos victoria al poner una bandera
-    verificarVictoria();
+    actualizarDisplay('#mine-count', Math.max(0, configActual.minas - minasMarcadas));
 }
 
 function iniciarCronometro() {
@@ -202,13 +198,36 @@ function actualizarDisplay(selector, valor) {
     if (el) el.innerText = valor.toString().padStart(3, '0');
 }
 
+function actualizarInterfazRecords() {
+    ["facil", "medio", "dificil"].forEach(nivel => {
+        const span = document.querySelector(`#record-${nivel}`);
+        const valor = localStorage.getItem(`record_${nivel}`);
+        if (span) span.innerText = valor ? valor : "--";
+    });
+}
+
+function guardarRecord(tiempoActual) {
+    let nivel = "";
+    if (configActual.minas === 10) nivel = "facil";
+    else if (configActual.minas === 40) nivel = "medio";
+    else if (configActual.minas === 99) nivel = "dificil";
+    else return;
+
+    const recordKey = `record_${nivel}`;
+    const mejorTiempoGuardado = localStorage.getItem(recordKey);
+    const mejorTiempoNum = mejorTiempoGuardado ? parseInt(mejorTiempoGuardado) : Infinity;
+
+    if (tiempoActual < mejorTiempoNum) {
+        localStorage.setItem(recordKey, tiempoActual.toString());
+        actualizarInterfazRecords();
+    }
+}
+
 function finalizarJuego(victoria) {
     juegoTerminado = true;
     clearInterval(cronometro);
-    
     if (victoria) {
-        document.querySelector('#reset-btn').innerText = '😎'; // Victoria
-        alert(`¡Victoria! Tiempo: ${segundos} segundos.`);
+        document.querySelector('#reset-btn').innerText = '😎'; 
         guardarRecord(segundos);
     } else {
         document.querySelectorAll('.cell').forEach((c, i) => {
@@ -217,16 +236,6 @@ function finalizarJuego(victoria) {
                 c.innerHTML = '💣';
             }
         });
-        document.querySelector('#reset-btn').innerText = '😵'; // Game Over
-    }
-}
-
-function guardarRecord(tiempoActual) {
-    const nivel = configActual.minas === 10 ? 'facil' : 
-                  configActual.minas === 40 ? 'medio' : 'dificil';
-    
-    const mejorTiempo = localStorage.getItem(`record_${nivel}`);
-    if (!mejorTiempo || tiempoActual < parseInt(mejorTiempo)) {
-        localStorage.setItem(`record_${nivel}`, tiempoActual);
+        document.querySelector('#reset-btn').innerText = '😵';
     }
 }

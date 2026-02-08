@@ -39,7 +39,7 @@
         .overlay {
             position: absolute;
             inset: 0;
-            background-color: $color-overlay;
+            background-color: rgb($color-card-bg, 0.7);
             
             // APLICAMOS COLUMNA PARA LOS BOTONES
             display: flex;
